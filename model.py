@@ -15,7 +15,7 @@ class Backbone(nn.Module):
         # Remove the fully connected layer and global pooling
         self.backbone = nn.Sequential(*list(resnet.children())[:-2])  # Output: 512x8x8
         self.pool = nn.AvgPool2d(2, stride=2)
-        self.pool1 = nn.AvgPool2d(2, stride=2)
+        # self.pool1 = nn.AvgPool2d(2, stride=2)
 
         # Freeze the ResNet weights
         for param in self.backbone.parameters():
@@ -23,12 +23,12 @@ class Backbone(nn.Module):
 
     def forward(self, x):
         x = self.backbone(x)
-        x = self.pool1(x)
+        # x = self.pool1(x)
         return  self.pool(x) # Output shape: (batch_size, 512, 4, 4)
     
 
 class SplineFlow(nn.Module):
-    def __init__(self, in_channels=512 * 2 * 2, num_blocks=6, hidden_channels=128, num_bins=4):
+    def __init__(self, in_channels=512 * 4 * 4, num_blocks=6, hidden_channels=128, num_bins=4):
         super(SplineFlow, self).__init__()
         transforms = []
 
